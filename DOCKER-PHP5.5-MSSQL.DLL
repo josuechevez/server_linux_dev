@@ -1,0 +1,23 @@
+CONTENEDOR DOCKER PHP 5.5 
+
+- CONEXION SQL SEVER
+- UBUNTU 14
+
+FROM ubuntu:14.04
+
+RUN apt-get update && \
+    apt-get -y install apache2 php5 php5-mssql && \
+    apt-get -y autoremove && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+RUN /usr/sbin/a2enmod rewrite
+RUN php5enmod mssql
+
+EXPOSE 80
+EXPOSE 443
+
+CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
+
+WORKDIR /var/www/html
+COPY . /var/www/html
